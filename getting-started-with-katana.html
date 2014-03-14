@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+          <title>tkirill's blog</title>
         <meta charset="utf-8" />
-        <title>Приступая к работе с Katana Project</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
 
-        <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+
+
+
+
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">tkirill's blog </a></h1>
-                <nav><ul>
-                    <li class="active"><a href="/category/misc.html">misc</a></li>
-                </ul></nav>
+                <h1><a href="">tkirill's blog <strong></strong></a></h1>
         </header><!-- /#banner -->
+        <nav id="menu"><ul>
+        </ul></nav><!-- /#menu -->
 <section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="/getting-started-with-katana.html" rel="bookmark"
-           title="Permalink to Приступая к работе с Katana Project">Приступая к работе с Katana Project</a></h1>
-    </header>
-
-    <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-12-03T00:00:00">
-                Wed 03 December 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/tkirill.html">tkirill</a>
-        </address>
-<p>In <a href="/category/misc.html">misc</a>. </p>
-
-</footer><!-- /.post-info -->      <h1>Приступая к работе с Katana Project</h1>
+  <header>
+    <h2 class="entry-title">
+      <a href="/getting-started-with-katana.html" rel="bookmark"
+         title="Permalink to Приступая к работе с Katana Project">Приступая к работе с Katana Project</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2014-12-03T00:00:00">
+      Wed 03 December 2014
+    </abbr>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <h1>Приступая к работе с Katana Project</h1>
 <p>В 2002, когда впервые был выпущен ASP.NET, времена были другие.  Интернет всё ещё был в относительно младенческом состоянии, около 569 миллионов пользователей проводили в среднем 46 минут в день на приблизительно 3 миллионах сайтов.  Те же самые измерения, проведённые всего десятью годами позже, показывают приблизительно 2.27 миллиардов пользователей, в среднем тратящими ежедневно 4 часа на 555 миллионах сайтов (см. <a href="http://bit.ly/MY7GzO">bit.ly/MY7GzO</a>).</p>
 <p>Этот рост, конечно же, привёл к соответствующим изменениям в потребностях разработчиков в смысле фреймворков, инструментов и рантаймов, которые они используют для разработки и запуска веб-приложений.  Современные веб-приложения должны развиваться быстро, используя фишки из множества разных компонентов и фреймворков, а также использовать малое количество ресурсов, чтобы эффективно работать в больших облачных системах.</p>
 <p>Главным мотивом для Katana Project является обеспечение того, чтобы ASP.NET мог ответить этим текущим и будущим потребностям.</p>
@@ -387,37 +380,13 @@
 
 <p>Но есть и подозрительные моменты.  Конечно, сложно спорить с Howard Dierking, управляющим разработкой фреймворков, про которые написано столько книг и статей, что отдельным достижением является прочтение хотя бы половины из них.  Но, с высоты моего скромного опыта, по крайней мере один из аргументов в пользу Katana воспринимается не так однозначно -- возможность собрать все сервисы в одно приложение и деплоить всё сразу.  Ведь известен совершенно противоположный подход -- разделить приложение на отдельные сервисы и получить возможность независимо и постепенно выкладывать обновления на боевую площадку.</p>
 <p>Также, могут возникнуть сложности с поиском места в коде, отвечающим за ту или иную функциональность.  Когда запрос может быть обработан кучей разных компонентов и то, какой из них всё-таки отработает, зависит от порядка в конфигурации конвеера и специфичных для каждого компонента настройках, вроде конфига путей в Web API -- искать можно долго.</p>
-    </div><!-- /.entry-content -->
-
-  </article>
+  </div><!-- /.entry-content -->
 </section>
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>blogroll</h2>
-                        <ul>
-                            <li><a href="http://getpelican.com/">Pelican</a></li>
-                            <li><a href="http://python.org/">Python.org</a></li>
-                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
-
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
-
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
                 </address><!-- /#about -->
-
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
-
 </body>
 </html>
