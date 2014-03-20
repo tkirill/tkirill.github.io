@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+          <title>tkirill's blog</title>
+        <meta charset="utf-8" />
+
+
+
+
+
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://tkirill.org">tkirill's blog <strong></strong></a></h1>
+        </header><!-- /#banner -->
+        <nav id="menu"><ul>
+        </ul></nav><!-- /#menu -->
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="http://tkirill.org/strongly-typed-html-helper.html" rel="bookmark"
+         title="Permalink to Строго-типизированные extensions для HtmlHelper">Строго-типизированные extensions для HtmlHelper</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2014-03-20T00:00:00">
+      Thu 20 March 2014
+    </abbr>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p>Уже не раз мне требовалось написать свой extension для HtmlHelper, который в качестве аргумента принимал бы поле модели.  В очередной раз, когда это случилось, мне нужно было генерировать JSON для передачи данных с сервера в JavaScript код при рендере страницы.  Получившийся метод должен был максимально походить на встроенные в ASP.NET MVC хелперы, то есть:</p>
+<ul>
+<li>Использовать compile-time проверки, никаких строк с названиями полей, как, например, в <a href="http://msdn.microsoft.com/en-us/library/dd492494%28v=vs.118%29.aspx">Html.TextBox</a>.  Это позволяет избегать проблем с типизацией и переименованиями полей.</li>
+<li>Работать с моделью, а не ViewBag.</li>
+<li>Использовать лямбда-выражения для выбора поля.  Это даёт бонус в виде использования вещей из ReSharper, например, автодополнения.</li>
+</ul>
+<p>Сейчас у меня есть такой extension и ниже я разберу, как он устроен:</p>
+<div class="highlight"><pre>@model IssuesViewModel
+<span class="nt">&lt;script&gt;</span>
+    <span class="kd">var</span> <span class="nx">issues</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IssuesCollection</span><span class="p">(</span><span class="err">@</span><span class="nx">Html</span><span class="p">.</span><span class="nx">JsonFor</span><span class="p">(</span><span class="nx">m</span> <span class="o">=&gt;</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Issues</span><span class="p">));</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+
+<p>Весь код хелпера занимает три строки, для сериализации используется ServiceStack.Text:</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">static</span> <span class="nb">class</span> <span class="nx">HtmlJsonHelper</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">static</span> <span class="nx">IHtmlString</span> <span class="nx">JsonFor</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TProperty</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">this</span> <span class="nx">HtmlHelper</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="o">&gt;</span> <span class="nx">htmlHelper</span><span class="p">,</span> <span class="nx">Expression</span><span class="o">&lt;</span><span class="nx">Func</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TProperty</span><span class="o">&gt;&gt;</span> <span class="nx">expression</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="n">meta</span> <span class="o">=</span> <span class="nx">ModelMetadata.FromLambdaExpression</span><span class="p">(</span><span class="nx">expression</span><span class="p">,</span> <span class="nx">htmlHelper.ViewData</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="n">json</span> <span class="o">=</span> <span class="nx">JsonSerializer.SerializeToString</span><span class="p">(</span><span class="nx">meta.Model</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">htmlHelper.Raw</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Здесь используется хелпер из ASP.NET MVC, который позволяет получить ModelMetadata для поля по expression.  Примечательно, что точно таким же способом реализованы встроенные в ASP.NET MVC хелперы.  Посмотрим, например, на реализацию Html.LabelFor:</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">static</span> <span class="nx">MvcHtmlString</span> <span class="nx">LabelFor</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">this</span> <span class="nx">HtmlHelper</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="o">&gt;</span> <span class="nx">html</span><span class="p">,</span> <span class="nx">Expression</span><span class="o">&lt;</span><span class="nx">Func</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TValue</span><span class="o">&gt;&gt;</span> <span class="nx">expression</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">LabelFor</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">html</span><span class="p">,</span> <span class="nx">expression</span><span class="p">,</span> <span class="nx">labelText</span><span class="p">:</span> <span class="kt">null</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ещё несколько перегрузок с разным количеством параметров, которые в конечном счёте вызывают такой internal метод</span>
+
+<span class="nx">internal</span> <span class="nx">static</span> <span class="nx">MvcHtmlString</span> <span class="nx">LabelFor</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">this</span> <span class="nx">HtmlHelper</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="o">&gt;</span> <span class="nx">html</span><span class="p">,</span> <span class="nx">Expression</span><span class="o">&lt;</span><span class="nx">Func</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TValue</span><span class="o">&gt;&gt;</span> <span class="nx">expression</span><span class="p">,</span> <span class="kt">string</span> <span class="nx">labelText</span><span class="p">,</span> <span class="nx">IDictionary</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="nb">object</span><span class="o">&gt;</span> <span class="nx">htmlAttributes</span><span class="p">,</span> <span class="nx">ModelMetadataProvider</span> <span class="nx">metadataProvider</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">LabelHelper</span><span class="p">(</span><span class="nx">html</span><span class="p">,</span>
+                       <span class="nx">ModelMetadata.FromLambdaExpression</span><span class="p">(</span><span class="nx">expression</span><span class="p">,</span> <span class="nx">html.ViewData</span><span class="p">,</span> <span class="nx">metadataProvider</span><span class="p">),</span>
+                       <span class="nx">ExpressionHelper.GetExpressionText</span><span class="p">(</span><span class="nx">expression</span><span class="p">),</span>
+                       <span class="nx">labelText</span><span class="p">,</span>
+                       <span class="nx">htmlAttributes</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>В общем, <code>ModelMetadata.FromLambdaExpression</code> берёт на себя всю грязную работу по работе с expression, типами и всеми специфичными для MVC атрибутами, вроде <code>[DisplayName]</code>.  Для того, чтобы наш JSON не испортило стандартное HTML-экранирование в Razor, мы используем HtmlHelper.Raw, который возвращает специальную реализацию <code>IHtmlString</code>, не использующую экранирование.</p>
+<p>Однако HTML-экранирование необходимо использовать в случаях, когда JSON вставляется, например, в значение атрибута для какого-нибудь тега.  Для этого нужно изменить используемую реализацию <code>IHtmlString</code>:</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">static</span> <span class="nx">IHtmlString</span> <span class="nx">EncodedJsonFor</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TProperty</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">this</span> <span class="nx">HtmlHelper</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="o">&gt;</span> <span class="nx">htmlHelper</span><span class="p">,</span> <span class="nx">Expression</span><span class="o">&lt;</span><span class="nx">Func</span><span class="o">&lt;</span><span class="nx">TModel</span><span class="p">,</span> <span class="nx">TProperty</span><span class="o">&gt;&gt;</span> <span class="nx">expression</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kd">var</span> <span class="n">meta</span> <span class="o">=</span> <span class="nx">ModelMetadata.FromLambdaExpression</span><span class="p">(</span><span class="nx">expression</span><span class="p">,</span> <span class="nx">htmlHelper.ViewData</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="n">json</span> <span class="o">=</span> <span class="nx">JsonSerializer.SerializeToString</span><span class="p">(</span><span class="nx">meta.Model</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">new</span> <span class="nx">MvcHtmlString</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>На этом всё.  Для интереса можно посмотреть на полную реализацию Html.LabelFor на GitHub: <a href="https://github.com/ASP-NET-MVC/aspnetwebstack/blob/master/src/System.Web.Mvc/Html/LabelExtensions.cs">LabelExtensions.cs</a>.</p>
+  </div><!-- /.entry-content -->
+</section>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+</body>
+</html>
