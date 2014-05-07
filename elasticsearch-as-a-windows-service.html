@@ -42,37 +42,55 @@
 </li>
 <li>
 <p>Настраиваем в файле config/elasticsearch.yml пути (<a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-dir-layout.html">документация</a>).  Нам нужно настроить четыре каталога: path.conf, path.data, path.logs и path.work, остальные каталоги правильно настроит service.bat из каталога установки.  Например, если рабочий каталог -- E:\elasticsearch, то в elasticsearch.yml нужно прописать такие настройки:</p>
-<p><code>path.conf: E:\elasticsearch\config
-path.data: E:\elasticsearch\data
-path.work: E:\elasticsearch\work
-path.logs: E:\elasticsearch\logs</code></p>
+<div class="highlight"><pre><span class="l-Scalar-Plain">path.conf</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\config</span>
+<span class="l-Scalar-Plain">path.data</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\data</span>
+<span class="l-Scalar-Plain">path.work</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\work</span>
+<span class="l-Scalar-Plain">path.logs</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\logs</span>
+</pre></div>
+
+
 </li>
 <li>
 <p>Можно настроить название кластера, чтобы вы случайно не пересеклись с другим интересующимся ElasticSearch человеком в своей локальной сети.  Это не обязательно, но может пригодится, как и настройка сетевого интерфейса:</p>
-<p><code>cluster.name: boogie-woogie
-network.host: 127.0.0.1</code></p>
+<div class="highlight"><pre><span class="l-Scalar-Plain">cluster.name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">boogie-woogie</span>
+<span class="l-Scalar-Plain">network.host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">127.0.0.1</span>
+</pre></div>
+
+
 </li>
 <li>
 <p>Для установки сервиса мы будем использовать скрипт service.bat из каталога установки (подкаталог bin).  Запускаем консоль с правами администратора.</p>
 </li>
 <li>
 <p>В переменную CONF_FILE сохраняем полный путь до файла конфигурации:</p>
-<p><code>set CONF_FILE=E:\elasticsearch\config\elasticsearch.yml</code></p>
+<div class="highlight"><pre><span class="k">set</span> <span class="nv">CONF_FILE</span><span class="o">=</span>E:\elasticsearch\config\elasticsearch.yml
+</pre></div>
+
+
 <p>Это работает благодаря следующей строке в service.bat:</p>
-<p><code>if "%CONF_FILE%" == "" set CONF_FILE=%ES_HOME%\config\elasticsearch.yml</code></p>
+<div class="highlight"><pre><span class="k">if</span> <span class="s2">&quot;%CONF_FILE%&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="k">set</span> <span class="nv">CONF_FILE</span><span class="o">=</span><span class="nv">%ES_HOME%</span>\config\elasticsearch.yml
+</pre></div>
+
+
 </li>
 <li>
 <p>Устанавливаем сервис вызывая service.bat, сервис будет называться ElasticSearch:</p>
-<p><code>\Program Files\elasticsearch-1.1.1\bin\service.bat install ElasticSearch</code></p>
+<div class="highlight"><pre>\Program Files\elasticsearch<span class="m">-1</span>.<span class="m">1</span>.<span class="m">1</span>\bin\service.bat install ElasticSearch
+</pre></div>
+
+
 <p>Мы указываем название явно, иначе сервис получит неудобное название по-умолчанию -- elasticsearch-service-x64.</p>
 </li>
 <li>
 <p>Запускаем сервис:</p>
-<p><code>net start ElasticSearch</code></p>
+<div class="highlight"><pre>net start ElasticSearch
+</pre></div>
+
+
 </li>
 </ol>
 <p>Настройки из файла конфигурации перезатрут настройки, устанавливаемые service.bat благодаря тому, что service.bat указывает только настройки по-умолчанию, используя префикс es.default:</p>
-<div class="highlight"><pre><span class="n">set</span> <span class="n">ES_PARAMS</span><span class="o">=-</span><span class="n">Delasticsearch</span><span class="p">;</span><span class="o">-</span><span class="n">Des</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">home</span><span class="o">=</span><span class="s">&quot;%ES_HOME%&quot;</span><span class="p">;</span><span class="o">-</span><span class="n">Des</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">config</span><span class="o">=</span><span class="s">&quot;%CONF_FILE%&quot;</span><span class="p">;</span><span class="o">-</span><span class="n">Des</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">home</span><span class="o">=</span><span class="s">&quot;%ES_HOME%&quot;</span><span class="p">;</span><span class="o">-</span><span class="n">Des</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">logs</span><span class="o">=</span><span class="s">&quot;%LOG_DIR%&quot;</span><span class="p">;</span> <span class="n">etc</span><span class="p">...</span>
+<div class="highlight"><pre><span class="k">set</span> <span class="nv">ES_PARAMS</span><span class="o">=</span>-Delasticsearch;-Des.path.home<span class="o">=</span><span class="s2">&quot;%ES_HOME%&quot;</span>;-Des.default.config<span class="o">=</span><span class="s2">&quot;%CONF_FILE%&quot;</span>;-Des.default.path.home<span class="o">=</span><span class="s2">&quot;%ES_HOME%&quot;</span>;-Des.default.path.logs<span class="o">=</span><span class="s2">&quot;%LOG_DIR%&quot;</span>; etc...
 </pre></div>
   </div><!-- /.entry-content -->
 </section>
