@@ -42,16 +42,14 @@
 </li>
 <li>
 <p>Настраиваем в файле config/elasticsearch.yml пути (<a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-dir-layout.html">документация</a>).  Нам нужно настроить четыре каталога: path.conf, path.data, path.logs и path.work, остальные каталоги правильно настроит service.bat из каталога установки.  Например, если рабочий каталог -- E:\elasticsearch, то в elasticsearch.yml нужно прописать такие настройки:</p>
-<p><code>yml
-path.conf: E:\elasticsearch\config
+<p><code>path.conf: E:\elasticsearch\config
 path.data: E:\elasticsearch\data
 path.work: E:\elasticsearch\work
 path.logs: E:\elasticsearch\logs</code></p>
 </li>
 <li>
 <p>Можно настроить название кластера, чтобы вы случайно не пересеклись с другим интересующимся ElasticSearch человеком в своей локальной сети.  Это не обязательно, но может пригодится, как и настройка сетевого интерфейса:</p>
-<p><code>yml
-cluster.name: boogie-woogie
+<p><code>cluster.name: boogie-woogie
 network.host: 127.0.0.1</code></p>
 </li>
 <li>
@@ -59,22 +57,18 @@ network.host: 127.0.0.1</code></p>
 </li>
 <li>
 <p>В переменную CONF_FILE сохраняем полный путь до файла конфигурации:</p>
-<p><code>dos
-set CONF_FILE=E:\elasticsearch\config\elasticsearch.yml</code></p>
+<p><code>set CONF_FILE=E:\elasticsearch\config\elasticsearch.yml</code></p>
 <p>Это работает благодаря следующей строке в service.bat:</p>
-<p><code>dos
-if "%CONF_FILE%" == "" set CONF_FILE=%ES_HOME%\config\elasticsearch.yml</code></p>
+<p><code>if "%CONF_FILE%" == "" set CONF_FILE=%ES_HOME%\config\elasticsearch.yml</code></p>
 </li>
 <li>
 <p>Устанавливаем сервис вызывая service.bat, сервис будет называться ElasticSearch:</p>
-<p><code>dos
-\Program Files\elasticsearch-1.1.1\bin\service.bat install ElasticSearch</code></p>
+<p><code>\Program Files\elasticsearch-1.1.1\bin\service.bat install ElasticSearch</code></p>
 <p>Мы указываем название явно, иначе сервис получит неудобное название по-умолчанию -- elasticsearch-service-x64.</p>
 </li>
 <li>
 <p>Запускаем сервис:</p>
-<p><code>dos
-net start ElasticSearch</code></p>
+<p><code>net start ElasticSearch</code></p>
 </li>
 </ol>
 <p>Настройки из файла конфигурации перезатрут настройки, устанавливаемые service.bat благодаря тому, что service.bat указывает только настройки по-умолчанию, используя префикс es.default:</p>
