@@ -8,6 +8,7 @@
 
 
 
+  <link rel="stylesheet" type="text/css" href="http://tkirill.org/theme/css/pygments-friendly.css" />
 </head>
 
 <body id="index" class="home">
@@ -31,28 +32,28 @@
   <div class="entry-content">
     <p>Долгое время я ждал задачи, в которой получилось бы использовать Search with Pattern -- многообещающую фичу ReSharper, которую по-русски я буду называть структурным поиском.  В этом поиске используются шаблоны, которые похожи на регулярные выражения, только работающие в грамматике C#, то есть они оперируют идентификаторами, переменными, выражениями и другими структурами языка.</p>
 <p>Например, пусть раньше в тестах для сравнения строк без учёта регистра использовался StringAssert:</p>
-<div class="highlight"><pre><span class="n">StringAssert</span><span class="p">.</span><span class="n">AreEqualIgnoringCase</span><span class="p">(</span><span class="s">&quot;2013.1.1&quot;</span><span class="p">,</span> <span class="n">new</span> <span class="n">DateTime</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyy.M.d&quot;</span><span class="p">));</span>
+<div class="highlight"><pre><span class="n">StringAssert</span><span class="p">.</span><span class="n">AreEqualIgnoringCase</span><span class="p">(</span><span class="s">&quot;2013.1.1&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="n">DateTime</span><span class="p">(</span><span class="m">2013</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyy.M.d&quot;</span><span class="p">));</span>
 <span class="c1">//...</span>
-<span class="n">StringAssert</span><span class="p">.</span><span class="n">AreEqualIgnoringCase</span><span class="p">(</span><span class="s">&quot;AA&quot;</span><span class="o">+</span><span class="s">&quot;bb&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">,</span> <span class="s">&quot;BB&quot;</span><span class="p">));</span>
+<span class="n">StringAssert</span><span class="p">.</span><span class="n">AreEqualIgnoringCase</span><span class="p">(</span><span class="s">&quot;AA&quot;</span><span class="p">+</span><span class="s">&quot;bb&quot;</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">,</span> <span class="s">&quot;BB&quot;</span><span class="p">));</span>
 </pre></div>
 
 
 <p>То есть, в качестве первого и второго аргументов могут передаваться произвольные выражения, а не только строковые литералы.  Теперь представим, что в проекте поменялись соглашения и теперь все проверки принято записывать через Assert.That.  Наш пример в новых соглашениях будет выглядеть так:</p>
-<div class="highlight"><pre><span class="n">Assert</span><span class="p">.</span><span class="n">That</span><span class="p">(</span><span class="n">new</span> <span class="n">DateTime</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyy.M.d&quot;</span><span class="p">),</span> <span class="n">Is</span><span class="p">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="s">&quot;2013.1.1&quot;</span><span class="p">).</span><span class="n">IgnoreCase</span><span class="p">);</span>
+<div class="highlight"><pre><span class="n">Assert</span><span class="p">.</span><span class="n">That</span><span class="p">(</span><span class="k">new</span> <span class="n">DateTime</span><span class="p">(</span><span class="m">2013</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyy.M.d&quot;</span><span class="p">),</span> <span class="n">Is</span><span class="p">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="s">&quot;2013.1.1&quot;</span><span class="p">).</span><span class="n">IgnoreCase</span><span class="p">);</span>
 <span class="c1">//...</span>
-<span class="n">Assert</span><span class="p">.</span><span class="n">That</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">,</span> <span class="s">&quot;BB&quot;</span><span class="p">),</span> <span class="n">Is</span><span class="p">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="s">&quot;AA&quot;</span> <span class="o">+</span> <span class="s">&quot;bb&quot;</span><span class="p">).</span><span class="n">IgnoreCase</span><span class="p">);</span>
+<span class="n">Assert</span><span class="p">.</span><span class="n">That</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">,</span> <span class="s">&quot;BB&quot;</span><span class="p">),</span> <span class="n">Is</span><span class="p">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="s">&quot;AA&quot;</span> <span class="p">+</span> <span class="s">&quot;bb&quot;</span><span class="p">).</span><span class="n">IgnoreCase</span><span class="p">);</span>
 </pre></div>
 
 
 <p>Мы можем использовать структурный поиск для замены старого способа записи на новый.  Выбрав пункт меню ReSharper -&gt; Find -&gt; Search with Pattern и нажав в открывшемся окне на Replace в верхнем правом углу мы приступаем к написанию шаблона.</p>
 <p><img alt="ReSharper Search with Pattern window" src="http://tkirill.org/images/resharper-search-with-pattern/empty-search-with-pattern.png" title="ReSharper Search with Pattern window" /></p>
 <p>Шаблон для поиска:</p>
-<div class="highlight"><pre><span class="n">StringAssert</span><span class="p">.</span><span class="n">AreEqualIgnoringCase</span><span class="p">(</span><span class="err">$</span><span class="n">expected</span><span class="err">$</span><span class="p">,</span> <span class="err">$</span><span class="n">actual</span><span class="err">$</span><span class="p">);</span>
+<div class="highlight"><pre>StringAssert.AreEqualIgnoringCase($expected$, $actual$);
 </pre></div>
 
 
 <p>Шаблон для замены:</p>
-<div class="highlight"><pre><span class="n">Assert</span><span class="p">.</span><span class="n">That</span><span class="p">(</span><span class="err">$</span><span class="n">actual</span><span class="err">$</span><span class="p">,</span> <span class="n">Is</span><span class="p">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="err">$</span><span class="n">expected</span><span class="err">$</span><span class="p">).</span><span class="n">IgnoreCase</span><span class="p">);</span>
+<div class="highlight"><pre>Assert.That($actual$, Is.EqualTo($expected$).IgnoreCase);
 </pre></div>
 
 

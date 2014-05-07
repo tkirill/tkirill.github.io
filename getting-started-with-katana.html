@@ -8,6 +8,7 @@
 
 
 
+  <link rel="stylesheet" type="text/css" href="http://tkirill.org/theme/css/pygments-friendly.css" />
 </head>
 
 <body id="index" class="home">
@@ -34,7 +35,7 @@
 <p>Главным мотивом для Katana Project является обеспечение того, чтобы ASP.NET мог ответить этим текущим и будущим потребностям.</p>
 <h2>Что такое Katana?</h2>
 <p>Проект Katana на самом деле были начат не в Microsoft, а в open-source проекте Open Web Interface for .NET (OWIN), спецификации, которая определяет взаимодействие между веб-сервером и компонентами приложения (см. <a href="http://owin.org">owin.org</a>).  Так как цель спецификации – стимулировать обширную и живую экосистему .NET-серверов и программных компонентов, то всё взаимодействие между сервером и приложением сводится к небольшому набору типов и единственной функции, известной как application delegate, или AppFunc:</p>
-<div class="highlight"><pre><span class="n">using</span> <span class="n">AppFunc</span> <span class="o">=</span> <span class="n">Func</span><span class="o">&lt;</span><span class="n">IDictionary</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">object</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Task</span><span class="o">&gt;</span><span class="p">;</span>
+<div class="highlight"><pre><span class="k">using</span> <span class="nn">AppFunc</span> <span class="p">=</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">IDictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;,</span> <span class="n">Task</span><span class="p">&gt;;</span>
 </pre></div>
 
 
@@ -131,11 +132,11 @@
 <p>Зачастую, когда вы добавляете новый функционал в приложение, вы начинаете с установки NuGet пакета (вы можете прочитать подробнее про NuGet на <a href="http://docs.nuget.org">docs.nuget.org</a>).  На момент написания многие используемые здесь пакеты находились в пре-релиз версиях, поэтому проверьте, что отображение пре-релиз пакетов включено в диалоговом окне NuGet.</p>
 <p>Добавить Nancy в приложение я могу простой установкой одноимённого NuGet-пакета.  Однако, так как я хочу ещё запускать Nancy в конвеере OWIN, я установлю пакет Nancy.Owin (<a href="http://nuget.org/packages/nancy.owin">nuget.org/packages/nancy.owin</a>).  Он установит пакет Nancy как зависимость и предоставит дополнительные хелперы для настройки Nancy в конвеере OWIN.</p>
 <p>Затем мне нужно создать модуль Nancy (похож на контроллер из Model-View-Controller, или MVC) для обработки запросов, а также view для отображения чего-нибудь в браузере.  Вот код модуля (HomeModule.cs):</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">HomeModule</span> <span class="o">:</span> <span class="n">NancyModule</span>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">HomeModule</span> <span class="p">:</span> <span class="n">NancyModule</span>
 <span class="p">{</span>
-  <span class="n">public</span> <span class="n">HomeModule</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">Get</span><span class="p">[</span><span class="s">&quot;/&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="n">var</span> <span class="n">model</span> <span class="o">=</span> <span class="n">new</span> <span class="p">{</span> <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;We&#39;ve Got Issues...&quot;</span> <span class="p">};</span>
+  <span class="k">public</span> <span class="nf">HomeModule</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">Get</span><span class="p">[</span><span class="s">&quot;/&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="kt">var</span> <span class="n">model</span> <span class="p">=</span> <span class="k">new</span> <span class="p">{</span> <span class="n">title</span> <span class="p">=</span> <span class="s">&quot;We&#39;ve Got Issues...&quot;</span> <span class="p">};</span>
       <span class="k">return</span> <span class="n">View</span><span class="p">[</span><span class="s">&quot;home&quot;</span><span class="p">,</span> <span class="n">model</span><span class="p">];</span>
     <span class="p">};</span>
   <span class="p">}</span>
@@ -187,9 +188,9 @@
 </ul>
 <p>Для этого примера я позволю загрузчику просканировать сборки в поисках класса.  Однако, будет разумным использовать appSettings или атрибут сборки во избежание ненужного сканирования в случае, когда в вашем проекте много типов и сборок.</p>
 <p>Я создам startup class, который будет инициализировать мой OWIN-конвеер и добавлять Nancy как компонент конвеера.  Я создаю новый класс Startup и добавляю конфигурационный метод следующим образом:</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Startup</span>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">Startup</span>
 <span class="p">{</span>
-  <span class="n">public</span> <span class="kt">void</span> <span class="n">Configuration</span><span class="p">(</span><span class="n">IAppBuilder</span> <span class="n">app</span><span class="p">)</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">Configuration</span><span class="p">(</span><span class="n">IAppBuilder</span> <span class="n">app</span><span class="p">)</span>
   <span class="p">{</span>
     <span class="n">app</span><span class="p">.</span><span class="n">UseNancy</span><span class="p">();</span>
   <span class="p">}</span>
@@ -203,41 +204,45 @@
 <h2>Добавляем данные с помощью ASP.NET Web API</h2>
 <p>Пока что HTML view состоит в основном из статичной разметки.  Сейчас я выдам пользователям реальные баги для работы.  Во многих современных веб-приложениях задача по доставке данных в клиентский браузер перешла от фреймворков для серверной генерации разметки (вроде Nancy) к отдельному API.  В этом случае браузер сразу же после загрузки HTML-страницы выполняет JavaScript, который данные из API и динамически строит HTML-разметку.</p>
 <p>Я начну с разработки API на фреймворке ASP.NET Web API.  Как обычно, первым делом нужно установить NuGet-пакет.  Пакет этот называется Microsoft.AspNet.WebApi.Owin (<a href="http://bit.ly/1dnocmK">bit.ly/1dnocmK</a>) и он позволит легко встроить ASP.NET Web API в мой OWIN-конвеер.  Фреймворк ASP.NET Web API установится как зависимость.  После установки, я создам простое API:</p>
-<div class="highlight"><pre><span class="k">public</span> <span class="nf">class</span> <span class="nx">BugsController</span> <span class="p">:</span> <span class="nx">ApiController</span>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">BugsController</span> <span class="p">:</span> <span class="n">ApiController</span>
 <span class="p">{</span>
-  <span class="nx">IBugsRepository</span> <span class="n">_bugsRepository</span> <span class="o">=</span> <span class="nb">new</span> <span class="nx">BugsRepository</span><span class="p">();</span>
-  <span class="k">public</span> <span class="nf">IEnumerable</span><span class="o">&lt;</span><span class="nx">Bug</span><span class="o">&gt;</span> <span class="nb">Get</span><span class="p">()</span>
+  <span class="n">IBugsRepository</span> <span class="n">_bugsRepository</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BugsRepository</span><span class="p">();</span>
+
+  <span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Bug</span><span class="p">&gt;</span> <span class="n">Get</span><span class="p">()</span>
   <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">_bugsRepository.GetBugs</span><span class="p">();</span>
+    <span class="k">return</span> <span class="n">_bugsRepository</span><span class="p">.</span><span class="n">GetBugs</span><span class="p">();</span>
   <span class="p">}</span>
-  <span class="err">[</span><span class="nx">HttpPost</span><span class="p">(</span><span class="s2">&quot;api/bugs/backlog&quot;</span><span class="p">)</span><span class="cp">]</span>
-  public Bug MoveToBacklog(<span class="cp">[</span><span class="nx">FromBody</span><span class="cp">]</span> int id)
-  {
-    var bug = _bugsRepository.GetBugs().First(b=&gt;b.id==id);
-    bug.state = &quot;backlog&quot;;
-    return bug;
-  }
-  <span class="cp">[</span><span class="nx">HttpPost</span><span class="p">(</span><span class="s2">&quot;api/bugs/working&quot;</span><span class="p">)</span><span class="cp">]</span>
-  public Bug MoveToWorking(<span class="cp">[</span><span class="nx">FromBody</span><span class="cp">]</span> int id)
-  {
-    var bug = _bugsRepository.GetBugs().First(b =&gt; b.id == id);
-    bug.state = &quot;working&quot;;
-    return bug;
-  }
-  <span class="cp">[</span><span class="nx">HttpPost</span><span class="p">(</span><span class="s2">&quot;api/bugs/done&quot;</span><span class="p">)</span><span class="cp">]</span>
-  public Bug MoveToDone(<span class="cp">[</span><span class="nx">FromBody</span><span class="cp">]</span> int id)
-  {
-    var bug = _bugsRepository.GetBugs().First(b =&gt; b.id == id);
-    bug.state = &quot;done&quot;;
-    return bug;
-  }
-}
+
+<span class="na">  [HttpPost(&quot;api/bugs/backlog&quot;)]</span>
+  <span class="k">public</span> <span class="n">Bug</span> <span class="nf">MoveToBacklog</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span> <span class="kt">int</span> <span class="n">id</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="kt">var</span> <span class="n">bug</span> <span class="p">=</span> <span class="n">_bugsRepository</span><span class="p">.</span><span class="n">GetBugs</span><span class="p">().</span><span class="n">First</span><span class="p">(</span><span class="n">b</span><span class="p">=&gt;</span><span class="n">b</span><span class="p">.</span><span class="n">id</span><span class="p">==</span><span class="n">id</span><span class="p">);</span>
+    <span class="n">bug</span><span class="p">.</span><span class="n">state</span> <span class="p">=</span> <span class="s">&quot;backlog&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">bug</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="na">  [HttpPost(&quot;api/bugs/working&quot;)]</span>
+  <span class="k">public</span> <span class="n">Bug</span> <span class="nf">MoveToWorking</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span> <span class="kt">int</span> <span class="n">id</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="kt">var</span> <span class="n">bug</span> <span class="p">=</span> <span class="n">_bugsRepository</span><span class="p">.</span><span class="n">GetBugs</span><span class="p">().</span><span class="n">First</span><span class="p">(</span><span class="n">b</span> <span class="p">=&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">id</span> <span class="p">==</span> <span class="n">id</span><span class="p">);</span>
+    <span class="n">bug</span><span class="p">.</span><span class="n">state</span> <span class="p">=</span> <span class="s">&quot;working&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">bug</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="na">  [HttpPost(&quot;api/bugs/done&quot;)]</span>
+  <span class="k">public</span> <span class="n">Bug</span> <span class="nf">MoveToDone</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span> <span class="kt">int</span> <span class="n">id</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="kt">var</span> <span class="n">bug</span> <span class="p">=</span> <span class="n">_bugsRepository</span><span class="p">.</span><span class="n">GetBugs</span><span class="p">().</span><span class="n">First</span><span class="p">(</span><span class="n">b</span> <span class="p">=&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">id</span> <span class="p">==</span> <span class="n">id</span><span class="p">);</span>
+    <span class="n">bug</span><span class="p">.</span><span class="n">state</span> <span class="p">=</span> <span class="s">&quot;done&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">bug</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 
 
 <p>В API содержится метод для получения набора багов из репозитория, а также ещё несколько методов для перемещения багов между состояниями.  Гораздо больше информации по ASP.NET Web API можно найти на <a href="http://asp.net/web-api">asp.net/web-api</a></p>
 <p>Теперь, когда у меня есть контроллер ASP.NET Web API, мне нужно добавить его к своему существующему OWIN-конвееру.  Для этого я просто добавляю следующие строчки в метод Configuration в моём startup class:</p>
-<div class="highlight"><pre><span class="n">var</span> <span class="n">config</span> <span class="o">=</span> <span class="n">new</span> <span class="n">HttpConfiguration</span><span class="p">();</span>
+<div class="highlight"><pre><span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HttpConfiguration</span><span class="p">();</span>
 <span class="n">config</span><span class="p">.</span><span class="n">MapHttpAttributeRoutes</span><span class="p">();</span>
 <span class="n">config</span><span class="p">.</span><span class="n">Routes</span><span class="p">.</span><span class="n">MapHttpRoute</span><span class="p">(</span><span class="s">&quot;bugs&quot;</span><span class="p">,</span> <span class="s">&quot;api/{Controller}&quot;</span><span class="p">);</span>
 <span class="n">app</span><span class="p">.</span><span class="n">UseWebApi</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
@@ -250,33 +255,33 @@
 <p>Сейчас у меня есть работающее ASP.NET Web API приложение, но к нему никто не обращается из домашней view.  Поэтому я добавлю код по получению данных из API и генерации списка багов в каждом из состояний: отложено, в работе и сделано.  Для этой задачи я использую преимущества Knockout.js, JavaScript Model-View-ViewModel (MVVM) библиотеки.  Больше информации о Knockout вы можете найти на <a href="http://knockoutjs.com">knockoutjs.com</a>.</p>
 <p>Для того, чтобы динамически создавать HTML-разметку на клиенте с использованием Knockout, первым делом мне нужно затянуть все баги из ASP.NET Web API и создать viewModel, которую Knockout привяжет к HTML элементам.</p>
 <div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
-  $(function () {
-    var viewModel;
-    $.getJSON(&#39;/api/bugs&#39;, function(data) {
-      var model = data;
-      viewModel = {
-        backlog: ko.observableArray(
-          model.filter(function(element) { return element.state === &#39;backlog&#39;; })),
-        working: ko.observableArray(
-          model.filter(function(element) { return element.state === &#39;working&#39;; })),
-        done: ko.observableArray(
-          model.filter(function(element) { return element.state === &#39;done&#39;; })),
-        changeState: function (bug, newState) {
-          var self = this;
-          $.post(&#39;/api/bugs/&#39; + newState, { &#39;&#39;: bug.id }, function(data){
-            self.moveBug(data);
-          });
-        },
-        moveBug: function (bug) {
-          // Remove the item from one of the existing lists
-          ...
-          // Add bug to correct list
-          this[bug.state].push(bug);
-        }
-      };
-      ko.applyBindings(viewModel);
-    })
-  })
+  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">viewModel</span><span class="p">;</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">&#39;/api/bugs&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">data</span><span class="p">;</span>
+      <span class="nx">viewModel</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">backlog</span><span class="o">:</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="p">(</span>
+          <span class="nx">model</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">state</span> <span class="o">===</span> <span class="s1">&#39;backlog&#39;</span><span class="p">;</span> <span class="p">})),</span>
+        <span class="nx">working</span><span class="o">:</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="p">(</span>
+          <span class="nx">model</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">state</span> <span class="o">===</span> <span class="s1">&#39;working&#39;</span><span class="p">;</span> <span class="p">})),</span>
+        <span class="nx">done</span><span class="o">:</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="p">(</span>
+          <span class="nx">model</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">state</span> <span class="o">===</span> <span class="s1">&#39;done&#39;</span><span class="p">;</span> <span class="p">})),</span>
+        <span class="nx">changeState</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">bug</span><span class="p">,</span> <span class="nx">newState</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+          <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/api/bugs/&#39;</span> <span class="o">+</span> <span class="nx">newState</span><span class="p">,</span> <span class="p">{</span> <span class="s1">&#39;&#39;</span><span class="o">:</span> <span class="nx">bug</span><span class="p">.</span><span class="nx">id</span> <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">moveBug</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+          <span class="p">});</span>
+        <span class="p">},</span>
+        <span class="nx">moveBug</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">bug</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// Remove the item from one of the existing lists</span>
+          <span class="p">...</span>
+          <span class="c1">// Add bug to correct list</span>
+          <span class="k">this</span><span class="p">[</span><span class="nx">bug</span><span class="p">.</span><span class="nx">state</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">bug</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">};</span>
+      <span class="nx">ko</span><span class="p">.</span><span class="nx">applyBindings</span><span class="p">(</span><span class="nx">viewModel</span><span class="p">);</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
 <span class="nt">&lt;/script&gt;</span>
 </pre></div>
 
@@ -303,17 +308,17 @@
 <p>Но я собираюсь пойти дальше и сделать так, чтобы разные пользователи могли в реальном времени видеть обновления, сделанные другими пользователями.  Для этого я буду использовать библиотеку SignalR, которая предоставляет клиентское и серверное API для обмена сообщениями между браузером и веб-сервером в реальном времени.  SignalR тоже написан с учётом работы в OWIN-конвеере, поэтому добавить его к моему существующему приложению будет легче пареной репы.</p>
 <p>Я буду использовать одну из возможностей SignalR под названием Hubs.  В двух словах, Hub позволяет клиентам и серверам вызывать методы друг друга.  Отличную вводную статью по SignalR можно посмотреть на <a href="http://bit.ly/14WIx1t">bit.ly/14WIx1t</a>.  В моём приложении, ASP.NET Web API при заросе на изменение состояния бага будет обновлять его и затем рассылать обновлённый баг через SignalR Hub во все клиентские браузеры, подсоединённые к приложению.</p>
 <p>Я начну с созданию Hub на сервере.  Я не использую никаких других возможностей SignalR и поэтому мой Hub будет состоять всего лишь из такого пустого класа:</p>
-<div class="highlight"><pre><span class="k">[HubName(&quot;bugs&quot;)]</span>
-<span class="err">public</span> <span class="err">class</span> <span class="err">BugHub</span> <span class="err">:</span> <span class="err">Hub</span>
-<span class="err">{</span>
-<span class="err">}</span>
+<div class="highlight"><pre><span class="na">[HubName(&quot;bugs&quot;)]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">BugHub</span> <span class="p">:</span> <span class="n">Hub</span>
+<span class="p">{</span>
+<span class="p">}</span>
 </pre></div>
 
 
 <p>Для того, чтобы что-нибудь послать в Hub из ASP.NET Web API, мне для начала нужно получить экземпляр его runtime context.  Я могу сделать это, добавив следующий код в конструктор BugsController:</p>
 <div class="highlight"><pre><span class="k">public</span> <span class="nf">BugsController</span><span class="p">()</span>
 <span class="p">{</span>
-  <span class="n">_hub</span> <span class="o">=</span> <span class="nx">GlobalHost.ConnectionManager.GetHubContext</span><span class="o">&lt;</span><span class="nx">BugHub</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="n">_hub</span> <span class="p">=</span> <span class="n">GlobalHost</span><span class="p">.</span><span class="n">ConnectionManager</span><span class="p">.</span><span class="n">GetHubContext</span><span class="p">&lt;</span><span class="n">BugHub</span><span class="p">&gt;();</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -354,7 +359,7 @@
 </ul>
 <p>Затем я сделаю ребилд приложения.  Заметьте, что не обязательно делать ребилд для того, чтобы запустить приложения поверх новых сервера и хоста.  Единственным требованием является наличие их файлов в каталоге /bin, а ребилд -- всего лишь удобный способ скопировать эти файлы в /bin.</p>
 <p>После того, как пакеты установлены и файлы скопированы, я открываю командную строку, перехожу в корневой каталог веб-проекта и, как это показано ниже, запускаю OwinHost.exe из каталога packages:</p>
-<div class="highlight"><pre><span class="cp">..\packages\OwinHost.2.0.0\tools\OwinHost.exe</span>
+<div class="highlight"><pre>..\packages\OwinHost.<span class="m">2</span>.<span class="m">0</span>.<span class="m">0</span>\tools\OwinHost.exe
 </pre></div>
 
 
