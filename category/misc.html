@@ -1,68 +1,98 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-        <title>tkirill's blog</title>
-        <meta charset="utf-8" />
+    <title>tkirill's blog</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="../theme/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../theme/css/blog.css" />
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-49219502-1', 'tkirill.org');
+        ga('send', 'pageview');
+
+    </script>
 </head>
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="http://tkirill.org">tkirill's blog <strong></strong></a></h1>
-        </header><!-- /#banner -->
-        <nav id="menu"><ul>
-        </ul></nav><!-- /#menu -->
-<section id="content">
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1><a href="..">tkirill's blog</a></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+
 <h2>Articles in the misc category</h2>
 
-<ol id="post-list">
-        <li><article class="hentry">
-                <header> <h2 class="entry-title"><a href="http://tkirill.org/elasticsearch-as-a-windows-service.html" rel="bookmark" title="Permalink to Установка ElasticSearch как Windows-сервиса">Установка ElasticSearch как Windows-сервиса</a></h2> </header>
-                <footer class="post-info">
-                    <abbr class="published" title="2014-05-07T00:00:00"> Wed 07 May 2014 </abbr>
-                </footer><!-- /.post-info -->
-                <div class="entry-content"> <p>В этой короткой заметке рассказывается, как запустить ElasticSearch в виде Windows-сервиса с сохранением данных вне Program files, прямо как в Linux.</p> </div><!-- /.entry-content -->
-        </article></li>
-        <li><article class="hentry">
-                <header> <h2 class="entry-title"><a href="http://tkirill.org/resharper-search-with-pattern.html" rel="bookmark" title="Permalink to Search with Pattern в ReSharper">Search with Pattern в ReSharper</a></h2> </header>
-                <footer class="post-info">
-                    <abbr class="published" title="2014-04-02T00:00:00"> Wed 02 April 2014 </abbr>
-                </footer><!-- /.post-info -->
-                <div class="entry-content"> <p>Случай из жизни, когда Search with Pattern из ReSharper помог переехать на новые соглашения по написанию тестов и сэкономил много времени.</p> </div><!-- /.entry-content -->
-        </article></li>
-        <li><article class="hentry">
-                <header> <h2 class="entry-title"><a href="http://tkirill.org/strongly-typed-html-helper.html" rel="bookmark" title="Permalink to Строго-типизированные extensions для HtmlHelper">Строго-типизированные extensions для HtmlHelper</a></h2> </header>
-                <footer class="post-info">
-                    <abbr class="published" title="2014-03-20T00:00:00"> Thu 20 March 2014 </abbr>
-                </footer><!-- /.post-info -->
-                <div class="entry-content"> <p>Про то, как сделать свой extension для HtmlHelper похожим на стандартные хелперы из ASP.NET MVC вроде <code>Html.DisplayFor(m =&gt; m.Name)</code> и <code>Html.LabelFor(m =&gt; m.Age)</code>.  Приводится пример extension для генерации JSON при ренедере HTML в Razor.</p> </div><!-- /.entry-content -->
-        </article></li>
-        <li><article class="hentry">
-                <header> <h2 class="entry-title"><a href="http://tkirill.org/getting-started-with-katana.html" rel="bookmark" title="Permalink to Приступая к работе с Katana Project">Приступая к работе с Katana Project</a></h2> </header>
-                <footer class="post-info">
-                    <abbr class="published" title="2014-03-12T00:00:00"> Wed 12 March 2014 </abbr>
-                </footer><!-- /.post-info -->
-                <div class="entry-content"> <p>Перевод статьи о Katana project от руководителя разработки Web-инструментов Microsoft.</p> </div><!-- /.entry-content -->
-        </article></li>
-</ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 1
-</p>
-</section><!-- /#content -->
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
-          ga('create', 'UA-49219502-1', 'tkirill.org');
-          ga('send', 'pageview');
-        
-        </script>
+<div class="row">
+    <div class="col-md-8">
+            <div class="article-list-item">
+                <p class="article-list-item-date">
+                    Ср. 07 Май 2014
+                </p>
+                <h2>
+                    <a href="../elasticsearch-as-a-windows-service.html" title="Permalink to Установка ElasticSearch как Windows-сервиса">Установка ElasticSearch как Windows-сервиса</a>
+                </h2>
+                <div>
+                    <p>В этой короткой заметке рассказывается, как запустить ElasticSearch в виде Windows-сервиса с сохранением данных вне Program files, прямо как в Linux.</p>
+                </div>
+            </div>
+            <div class="article-list-item">
+                <p class="article-list-item-date">
+                    Ср. 02 Апрель 2014
+                </p>
+                <h2>
+                    <a href="../resharper-search-with-pattern.html" title="Permalink to Search with Pattern в ReSharper">Search with Pattern в ReSharper</a>
+                </h2>
+                <div>
+                    <p>Случай из жизни, когда Search with Pattern из ReSharper помог переехать на новые соглашения по написанию тестов и сэкономил много времени.</p>
+                </div>
+            </div>
+            <div class="article-list-item">
+                <p class="article-list-item-date">
+                    Чт. 20 Март 2014
+                </p>
+                <h2>
+                    <a href="../strongly-typed-html-helper.html" title="Permalink to Строго-типизированные extensions для HtmlHelper">Строго-типизированные extensions для HtmlHelper</a>
+                </h2>
+                <div>
+                    <p>Про то, как сделать свой extension для HtmlHelper похожим на стандартные хелперы из ASP.NET MVC вроде <code>Html.DisplayFor(m =&gt; m.Name)</code> и <code>Html.LabelFor(m =&gt; m.Age)</code>.  Приводится пример extension для генерации JSON при ренедере HTML в Razor.</p>
+                </div>
+            </div>
+            <div class="article-list-item">
+                <p class="article-list-item-date">
+                    Ср. 12 Март 2014
+                </p>
+                <h2>
+                    <a href="../getting-started-with-katana.html" title="Permalink to Приступая к работе с Katana Project">Приступая к работе с Katana Project</a>
+                </h2>
+                <div>
+                    <p>Перевод статьи о Katana project от руководителя разработки Web-инструментов Microsoft.</p>
+                </div>
+            </div>
+    </div>
+</div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="pelican-credits">Powered by <a href="http://docs.getpelican.com/">Pelican</a></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

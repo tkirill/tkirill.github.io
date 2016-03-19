@@ -1,36 +1,52 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-          <title>tkirill's blog</title>
-        <meta charset="utf-8" />
+      <title>tkirill's blog</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="./theme/css/blog.css" />
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-49219502-1', 'tkirill.org');
+        ga('send', 'pageview');
+
+    </script>
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="http://tkirill.org/theme/css/pygments-friendly.css" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments-friendly.css" />
 </head>
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="http://tkirill.org">tkirill's blog <strong></strong></a></h1>
-        </header><!-- /#banner -->
-        <nav id="menu"><ul>
-        </ul></nav><!-- /#menu -->
-<section id="content" class="body">
-  <header>
-    <h2 class="entry-title">
-      <a href="http://tkirill.org/elasticsearch-as-a-windows-service.html" rel="bookmark"
-         title="Permalink to Установка ElasticSearch как Windows-сервиса">Установка ElasticSearch как Windows-сервиса</a></h2>
- 
-  </header>
-  <footer class="post-info">
-    <abbr class="published" title="2014-05-07T00:00:00">
-      Wed 07 May 2014
-    </abbr>
-  </footer><!-- /.post-info -->
-  <div class="entry-content">
-    <p>В этой короткой заметке рассказывается, как запустить ElasticSearch в виде Windows-сервиса с сохранением данных вне Program files, прямо как в Linux.</p>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1><a href=".">tkirill's blog</a></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+<div class="row">
+    <div class="col-md-8">
+        <p class="article-date">
+            Ср. 07 Май 2014
+        </p>
+        <h2>
+            <a href="./elasticsearch-as-a-windows-service.html" rel="bookmark" title="Permalink to Установка ElasticSearch как Windows-сервиса">Установка ElasticSearch как Windows-сервиса</a>
+        </h2>
+        <div class="article-content">
+            <p>В этой короткой заметке рассказывается, как запустить ElasticSearch в виде Windows-сервиса с сохранением данных вне Program files, прямо как в Linux.</p>
 <ol>
 <li>
 <p>Скачиваем архив с ElasticSearch и распаковываем его в Program files.  Дальше будем называть это место <em>каталогом установки</em>.</p>
@@ -43,18 +59,18 @@
 </li>
 <li>
 <p>Настраиваем в файле config/elasticsearch.yml пути (<a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-dir-layout.html">документация</a>).  Нам нужно настроить четыре каталога: path.conf, path.data, path.logs и path.work, остальные каталоги правильно настроит service.bat из каталога установки.  Например, если рабочий каталог -- E:\elasticsearch, то в elasticsearch.yml нужно прописать такие настройки:</p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">path.conf</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\config</span>
-<span class="l-Scalar-Plain">path.data</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\data</span>
-<span class="l-Scalar-Plain">path.work</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\work</span>
-<span class="l-Scalar-Plain">path.logs</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">E:\elasticsearch\logs</span>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">path.conf</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">E:\elasticsearch\config</span>
+<span class="l l-Scalar l-Scalar-Plain">path.data</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">E:\elasticsearch\data</span>
+<span class="l l-Scalar l-Scalar-Plain">path.work</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">E:\elasticsearch\work</span>
+<span class="l l-Scalar l-Scalar-Plain">path.logs</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">E:\elasticsearch\logs</span>
 </pre></div>
 
 
 </li>
 <li>
 <p>Можно настроить название кластера, чтобы вы случайно не пересеклись с другим интересующимся ElasticSearch человеком в своей локальной сети.  Это не обязательно, но может пригодится, как и настройка сетевого интерфейса:</p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">cluster.name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">boogie-woogie</span>
-<span class="l-Scalar-Plain">network.host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">127.0.0.1</span>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">cluster.name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">boogie-woogie</span>
+<span class="l l-Scalar l-Scalar-Plain">network.host</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">127.0.0.1</span>
 </pre></div>
 
 
@@ -64,19 +80,19 @@
 </li>
 <li>
 <p>В переменную CONF_FILE сохраняем полный путь до файла конфигурации:</p>
-<div class="highlight"><pre><span class="k">set</span> <span class="nv">CONF_FILE</span><span class="o">=</span>E:\elasticsearch\config\elasticsearch.yml
+<div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">CONF_FILE</span><span class="p">=</span>E:\elasticsearch\config\elasticsearch.yml
 </pre></div>
 
 
 <p>Это работает благодаря следующей строке в service.bat:</p>
-<div class="highlight"><pre><span class="k">if</span> <span class="s2">&quot;%CONF_FILE%&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="k">set</span> <span class="nv">CONF_FILE</span><span class="o">=</span><span class="nv">%ES_HOME%</span>\config\elasticsearch.yml
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">&quot;</span><span class="nv">%CONF_FILE%</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="k">set</span> <span class="nv">CONF_FILE</span><span class="p">=</span><span class="nv">%ES_HOME%</span>\config\elasticsearch.yml
 </pre></div>
 
 
 </li>
 <li>
 <p>Устанавливаем сервис вызывая service.bat, сервис будет называться ElasticSearch:</p>
-<div class="highlight"><pre>\Program Files\elasticsearch<span class="m">-1</span>.<span class="m">1</span>.<span class="m">1</span>\bin\service.bat install ElasticSearch
+<div class="highlight"><pre><span></span>\Program Files\elasticsearch-1.1.1\bin\service.bat install ElasticSearch
 </pre></div>
 
 
@@ -84,32 +100,28 @@
 </li>
 <li>
 <p>Запускаем сервис:</p>
-<div class="highlight"><pre>net start ElasticSearch
+<div class="highlight"><pre><span></span>net start ElasticSearch
 </pre></div>
 
 
 </li>
 </ol>
 <p>Настройки из файла конфигурации перезатрут настройки, устанавливаемые service.bat благодаря тому, что service.bat указывает только настройки по-умолчанию, используя префикс es.default:</p>
-<div class="highlight"><pre><span class="k">set</span> <span class="nv">ES_PARAMS</span><span class="o">=</span>-Delasticsearch;-Des.path.home<span class="o">=</span><span class="s2">&quot;%ES_HOME%&quot;</span>;-Des.default.config<span class="o">=</span><span class="s2">&quot;%CONF_FILE%&quot;</span>;-Des.default.path.home<span class="o">=</span><span class="s2">&quot;%ES_HOME%&quot;</span>;-Des.default.path.logs<span class="o">=</span><span class="s2">&quot;%LOG_DIR%&quot;</span>; etc...
+<div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">ES_PARAMS</span><span class="p">=</span>-Delasticsearch;-Des.path.home=<span class="s2">&quot;</span><span class="nv">%ES_HOME%</span><span class="s2">&quot;</span>;-Des.default.config=<span class="s2">&quot;</span><span class="nv">%CONF_FILE%</span><span class="s2">&quot;</span>;-Des.default.path.home=<span class="s2">&quot;</span><span class="nv">%ES_HOME%</span><span class="s2">&quot;</span>;-Des.default.path.logs=<span class="s2">&quot;</span><span class="nv">%LOG_DIR%</span><span class="s2">&quot;</span>; etc...
 </pre></div>
-  </div><!-- /.entry-content -->
-</section>
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
-          ga('create', 'UA-49219502-1', 'tkirill.org');
-          ga('send', 'pageview');
-        
-        </script>
+        </div>
+    </div>
+</div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="pelican-credits">Powered by <a href="http://docs.getpelican.com/">Pelican</a></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

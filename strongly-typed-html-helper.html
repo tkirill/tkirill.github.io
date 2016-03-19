@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-          <title>tkirill's blog</title>
-        <meta charset="utf-8" />
+      <title>tkirill's blog</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="./theme/css/blog.css" />
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-49219502-1', 'tkirill.org');
+        ga('send', 'pageview');
+
+    </script>
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="http://tkirill.org/theme/css/pygments-friendly.css" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments-friendly.css" />
 </head>
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="http://tkirill.org">tkirill's blog <strong></strong></a></h1>
-        </header><!-- /#banner -->
-        <nav id="menu"><ul>
-        </ul></nav><!-- /#menu -->
-<section id="content" class="body">
-  <header>
-    <h2 class="entry-title">
-      <a href="http://tkirill.org/strongly-typed-html-helper.html" rel="bookmark"
-         title="Permalink to Строго-типизированные extensions для HtmlHelper">Строго-типизированные extensions для HtmlHelper</a></h2>
- 
-  </header>
-  <footer class="post-info">
-    <abbr class="published" title="2014-03-20T00:00:00">
-      Thu 20 March 2014
-    </abbr>
-  </footer><!-- /.post-info -->
-  <div class="entry-content">
-    <p>Уже не раз мне требовалось написать свой extension для HtmlHelper, который в качестве аргумента принимал бы поле модели.  В очередной раз, когда это случилось, мне нужно было генерировать JSON для передачи данных с сервера в JavaScript код при рендере страницы.  Получившийся метод должен был максимально походить на встроенные в ASP.NET MVC хелперы, то есть:</p>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1><a href=".">tkirill's blog</a></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+<div class="row">
+    <div class="col-md-8">
+        <p class="article-date">
+            Чт. 20 Март 2014
+        </p>
+        <h2>
+            <a href="./strongly-typed-html-helper.html" rel="bookmark" title="Permalink to Строго-типизированные extensions для HtmlHelper">Строго-типизированные extensions для HtmlHelper</a>
+        </h2>
+        <div class="article-content">
+            <p>Уже не раз мне требовалось написать свой extension для HtmlHelper, который в качестве аргумента принимал бы поле модели.  В очередной раз, когда это случилось, мне нужно было генерировать JSON для передачи данных с сервера в JavaScript код при рендере страницы.  Получившийся метод должен был максимально походить на встроенные в ASP.NET MVC хелперы, то есть:</p>
 <ul>
 <li>Использовать compile-time проверки, никаких строк с названиями полей, как, например, в <a href="http://msdn.microsoft.com/en-us/library/dd492494%28v=vs.118%29.aspx">Html.TextBox</a>.  Это позволяет избегать проблем с типизацией и переименованиями полей.</li>
 <li>Работать с моделью, а не ViewBag.</li>
 <li>Использовать лямбда-выражения для выбора поля.  Это даёт бонус в виде использования вещей из ReSharper, например, автодополнения.</li>
 </ul>
 <p>Сейчас у меня есть такой extension и ниже я разберу, как он устроен:</p>
-<div class="highlight"><pre>@model IssuesViewModel
+<div class="highlight"><pre><span></span>@model IssuesViewModel
 &lt;script&gt;
     var issues = new IssuesCollection(@Html.JsonFor(m =&gt; m.Issues));
 &lt;/script&gt;
@@ -45,7 +61,7 @@
 
 
 <p>Весь код хелпера занимает три строки, для сериализации используется ServiceStack.Text:</p>
-<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">HtmlJsonHelper</span>
+<div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">HtmlJsonHelper</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">static</span> <span class="n">IHtmlString</span> <span class="n">JsonFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">htmlHelper</span><span class="p">,</span>
                                                          <span class="n">Expression</span><span class="p">&lt;</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;&gt;</span> <span class="n">expression</span><span class="p">)</span>
@@ -59,7 +75,7 @@
 
 
 <p>Здесь используется хелпер из ASP.NET MVC, который позволяет получить ModelMetadata для поля по expression.  Примечательно, что точно таким же способом реализованы встроенные в ASP.NET MVC хелперы.  Посмотрим, например, на реализацию Html.LabelFor:</p>
-<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="n">MvcHtmlString</span> <span class="n">LabelFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">html</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="n">MvcHtmlString</span> <span class="n">LabelFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">html</span><span class="p">,</span>
                                                      <span class="n">Expression</span><span class="p">&lt;</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;&gt;</span> <span class="n">expression</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="n">LabelFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;(</span><span class="n">html</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">labelText</span><span class="p">:</span> <span class="k">null</span><span class="p">);</span>
@@ -84,7 +100,7 @@
 
 <p>В общем, <code>ModelMetadata.FromLambdaExpression</code> берёт на себя всю грязную работу по работе с expression, типами и всеми специфичными для MVC атрибутами, вроде <code>[DisplayName]</code>.  Для того, чтобы наш JSON не испортило стандартное HTML-экранирование в Razor, мы используем HtmlHelper.Raw, который возвращает специальную реализацию <code>IHtmlString</code>, не использующую экранирование.</p>
 <p>Однако HTML-экранирование необходимо использовать в случаях, когда JSON вставляется, например, в значение атрибута для какого-нибудь тега.  Для этого нужно изменить используемую реализацию <code>IHtmlString</code>:</p>
-<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="n">IHtmlString</span> <span class="n">EncodedJsonFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">htmlHelper</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="n">IHtmlString</span> <span class="n">EncodedJsonFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">htmlHelper</span><span class="p">,</span>
                                                             <span class="n">Expression</span><span class="p">&lt;</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;&gt;</span> <span class="n">expression</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="kt">var</span> <span class="n">meta</span> <span class="p">=</span> <span class="n">ModelMetadata</span><span class="p">.</span><span class="n">FromLambdaExpression</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">htmlHelper</span><span class="p">.</span><span class="n">ViewData</span><span class="p">);</span>
@@ -95,23 +111,19 @@
 
 
 <p>На этом всё.  Для интереса можно посмотреть на полную реализацию Html.LabelFor на GitHub: <a href="https://github.com/ASP-NET-MVC/aspnetwebstack/blob/master/src/System.Web.Mvc/Html/LabelExtensions.cs">LabelExtensions.cs</a>.</p>
-  </div><!-- /.entry-content -->
-</section>
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
-          ga('create', 'UA-49219502-1', 'tkirill.org');
-          ga('send', 'pageview');
-        
-        </script>
+        </div>
+    </div>
+</div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="pelican-credits">Powered by <a href="http://docs.getpelican.com/">Pelican</a></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
