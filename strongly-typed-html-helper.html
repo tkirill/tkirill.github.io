@@ -4,7 +4,7 @@
       <title>tkirill's blog</title>
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="./theme/css/blog.css" />
 
     <script>
@@ -43,16 +43,16 @@
             Чт. 20 Март 2014
         </p>
         <h2>
-            <a href="./strongly-typed-html-helper.html" rel="bookmark" title="Permalink to Строго-типизированные extensions для HtmlHelper">Строго-типизированные extensions для HtmlHelper</a>
+            <a href="./strongly-typed-html-helper.html" rel="bookmark" title="Permalink to Строго-типизированные extensions для HtmlHelper">Строго-типизированные extensions для&nbsp;HtmlHelper</a>
         </h2>
         <div class="article-content">
-            <p>Уже не раз мне требовалось написать свой extension для HtmlHelper, который в качестве аргумента принимал бы поле модели.  В очередной раз, когда это случилось, мне нужно было генерировать JSON для передачи данных с сервера в JavaScript код при рендере страницы.  Получившийся метод должен был максимально походить на встроенные в ASP.NET MVC хелперы, то есть:</p>
+            <p>Уже не раз мне требовалось написать свой extension для HtmlHelper, который в качестве аргумента принимал бы поле модели.  В очередной раз, когда это случилось, мне нужно было генерировать <span class="caps">JSON</span> для передачи данных с сервера в JavaScript код при рендере страницы.  Получившийся метод должен был максимально походить на встроенные в <span class="caps">ASP</span>.<span class="caps">NET</span> <span class="caps">MVC</span> хелперы, то&nbsp;есть:</p>
 <ul>
-<li>Использовать compile-time проверки, никаких строк с названиями полей, как, например, в <a href="http://msdn.microsoft.com/en-us/library/dd492494%28v=vs.118%29.aspx">Html.TextBox</a>.  Это позволяет избегать проблем с типизацией и переименованиями полей.</li>
-<li>Работать с моделью, а не ViewBag.</li>
-<li>Использовать лямбда-выражения для выбора поля.  Это даёт бонус в виде использования вещей из ReSharper, например, автодополнения.</li>
+<li>Использовать compile-time проверки, никаких строк с названиями полей, как, например, в <a href="http://msdn.microsoft.com/en-us/library/dd492494%28v=vs.118%29.aspx">Html.TextBox</a>.  Это позволяет избегать проблем с типизацией и переименованиями&nbsp;полей.</li>
+<li>Работать с моделью, а не&nbsp;ViewBag.</li>
+<li>Использовать лямбда-выражения для выбора поля.  Это даёт бонус в виде использования вещей из ReSharper, например,&nbsp;автодополнения.</li>
 </ul>
-<p>Сейчас у меня есть такой extension и ниже я разберу, как он устроен:</p>
+<p>Сейчас у меня есть такой extension и ниже я разберу, как он&nbsp;устроен:</p>
 <div class="highlight"><pre><span></span>@model IssuesViewModel
 &lt;script&gt;
     var issues = new IssuesCollection(@Html.JsonFor(m =&gt; m.Issues));
@@ -60,7 +60,7 @@
 </pre></div>
 
 
-<p>Весь код хелпера занимает три строки, для сериализации используется ServiceStack.Text:</p>
+<p>Весь код хелпера занимает три строки, для сериализации используется&nbsp;ServiceStack.Text:</p>
 <div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">HtmlJsonHelper</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">static</span> <span class="n">IHtmlString</span> <span class="n">JsonFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">htmlHelper</span><span class="p">,</span>
@@ -74,7 +74,7 @@
 </pre></div>
 
 
-<p>Здесь используется хелпер из ASP.NET MVC, который позволяет получить ModelMetadata для поля по expression.  Примечательно, что точно таким же способом реализованы встроенные в ASP.NET MVC хелперы.  Посмотрим, например, на реализацию Html.LabelFor:</p>
+<p>Здесь используется хелпер из <span class="caps">ASP</span>.<span class="caps">NET</span> <span class="caps">MVC</span>, который позволяет получить ModelMetadata для поля по expression.  Примечательно, что точно таким же способом реализованы встроенные в <span class="caps">ASP</span>.<span class="caps">NET</span> <span class="caps">MVC</span> хелперы.  Посмотрим, например, на реализацию&nbsp;Html.LabelFor:</p>
 <div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="n">MvcHtmlString</span> <span class="n">LabelFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">html</span><span class="p">,</span>
                                                      <span class="n">Expression</span><span class="p">&lt;</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;&gt;</span> <span class="n">expression</span><span class="p">)</span>
 <span class="p">{</span>
@@ -98,8 +98,8 @@
 </pre></div>
 
 
-<p>В общем, <code>ModelMetadata.FromLambdaExpression</code> берёт на себя всю грязную работу по работе с expression, типами и всеми специфичными для MVC атрибутами, вроде <code>[DisplayName]</code>.  Для того, чтобы наш JSON не испортило стандартное HTML-экранирование в Razor, мы используем HtmlHelper.Raw, который возвращает специальную реализацию <code>IHtmlString</code>, не использующую экранирование.</p>
-<p>Однако HTML-экранирование необходимо использовать в случаях, когда JSON вставляется, например, в значение атрибута для какого-нибудь тега.  Для этого нужно изменить используемую реализацию <code>IHtmlString</code>:</p>
+<p>В общем, <code>ModelMetadata.FromLambdaExpression</code> берёт на себя всю грязную работу по работе с expression, типами и всеми специфичными для <span class="caps">MVC</span> атрибутами, вроде <code>[DisplayName]</code>.  Для того, чтобы наш <span class="caps">JSON</span> не испортило стандартное <span class="caps">HTML</span>-экранирование в Razor, мы используем HtmlHelper.Raw, который возвращает специальную реализацию <code>IHtmlString</code>, не использующую&nbsp;экранирование.</p>
+<p>Однако <span class="caps">HTML</span>-экранирование необходимо использовать в случаях, когда <span class="caps">JSON</span> вставляется, например, в значение атрибута для какого-нибудь тега.  Для этого нужно изменить используемую реализацию <code>IHtmlString</code>:</p>
 <div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="n">IHtmlString</span> <span class="n">EncodedJsonFor</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">HtmlHelper</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">&gt;</span> <span class="n">htmlHelper</span><span class="p">,</span>
                                                             <span class="n">Expression</span><span class="p">&lt;</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">TModel</span><span class="p">,</span> <span class="n">TProperty</span><span class="p">&gt;&gt;</span> <span class="n">expression</span><span class="p">)</span>
 <span class="p">{</span>

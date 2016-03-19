@@ -4,7 +4,7 @@
       <title>tkirill's blog</title>
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="./theme/css/blog.css" />
 
     <script>
@@ -43,39 +43,39 @@
             Ср. 02 Апрель 2014
         </p>
         <h2>
-            <a href="./resharper-search-with-pattern.html" rel="bookmark" title="Permalink to Search with Pattern в ReSharper">Search with Pattern в ReSharper</a>
+            <a href="./resharper-search-with-pattern.html" rel="bookmark" title="Permalink to Search with Pattern в ReSharper">Search with Pattern в&nbsp;ReSharper</a>
         </h2>
         <div class="article-content">
-            <p>Долгое время я ждал задачи, в которой получилось бы использовать Search with Pattern -- многообещающую фичу ReSharper, которую по-русски я буду называть структурным поиском.  В этом поиске используются шаблоны, которые похожи на регулярные выражения, только работающие в грамматике C#, то есть они оперируют идентификаторами, переменными, выражениями и другими структурами языка.</p>
-<p>Например, пусть раньше в тестах для сравнения строк без учёта регистра использовался StringAssert:</p>
+            <p>Долгое время я ждал задачи, в которой получилось бы использовать Search with Pattern &#8212; многообещающую фичу ReSharper, которую по-русски я буду называть структурным поиском.  В этом поиске используются шаблоны, которые похожи на регулярные выражения, только работающие в грамматике C#, то есть они оперируют идентификаторами, переменными, выражениями и другими структурами&nbsp;языка.</p>
+<p>Например, пусть раньше в тестах для сравнения строк без учёта регистра использовался&nbsp;StringAssert:</p>
 <div class="highlight"><pre><span></span><span class="n">StringAssert</span><span class="p">.</span><span class="n">AreEqualIgnoringCase</span><span class="p">(</span><span class="s">&quot;2013.1.1&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="n">DateTime</span><span class="p">(</span><span class="m">2013</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyy.M.d&quot;</span><span class="p">));</span>
 <span class="c1">//...</span>
 <span class="n">StringAssert</span><span class="p">.</span><span class="n">AreEqualIgnoringCase</span><span class="p">(</span><span class="s">&quot;AA&quot;</span><span class="p">+</span><span class="s">&quot;bb&quot;</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">,</span> <span class="s">&quot;BB&quot;</span><span class="p">));</span>
 </pre></div>
 
 
-<p>То есть, в качестве первого и второго аргументов могут передаваться произвольные выражения, а не только строковые литералы.  Теперь представим, что в проекте поменялись соглашения и теперь все проверки принято записывать через Assert.That.  Наш пример в новых соглашениях будет выглядеть так:</p>
+<p>То есть, в качестве первого и второго аргументов могут передаваться произвольные выражения, а не только строковые литералы.  Теперь представим, что в проекте поменялись соглашения и теперь все проверки принято записывать через Assert.That.  Наш пример в новых соглашениях будет выглядеть&nbsp;так:</p>
 <div class="highlight"><pre><span></span><span class="n">Assert</span><span class="p">.</span><span class="n">That</span><span class="p">(</span><span class="k">new</span> <span class="n">DateTime</span><span class="p">(</span><span class="m">2013</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyy.M.d&quot;</span><span class="p">),</span> <span class="n">Is</span><span class="p">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="s">&quot;2013.1.1&quot;</span><span class="p">).</span><span class="n">IgnoreCase</span><span class="p">);</span>
 <span class="c1">//...</span>
 <span class="n">Assert</span><span class="p">.</span><span class="n">That</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">,</span> <span class="s">&quot;BB&quot;</span><span class="p">),</span> <span class="n">Is</span><span class="p">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="s">&quot;AA&quot;</span> <span class="p">+</span> <span class="s">&quot;bb&quot;</span><span class="p">).</span><span class="n">IgnoreCase</span><span class="p">);</span>
 </pre></div>
 
 
-<p>Мы можем использовать структурный поиск для замены старого способа записи на новый.  Выбрав пункт меню ReSharper -&gt; Find -&gt; Search with Pattern и нажав в открывшемся окне на Replace в верхнем правом углу мы приступаем к написанию шаблона.</p>
+<p>Мы можем использовать структурный поиск для замены старого способа записи на новый.  Выбрав пункт меню ReSharper -&gt; Find -&gt; Search with Pattern и нажав в открывшемся окне на Replace в верхнем правом углу мы приступаем к написанию&nbsp;шаблона.</p>
 <p><img alt="ReSharper Search with Pattern window" src="./images/resharper-search-with-pattern/empty-search-with-pattern.png" title="ReSharper Search with Pattern window" /></p>
-<p>Шаблон для поиска:</p>
+<p>Шаблон для&nbsp;поиска:</p>
 <div class="highlight"><pre><span></span>StringAssert.AreEqualIgnoringCase($expected$, $actual$);
 </pre></div>
 
 
-<p>Шаблон для замены:</p>
+<p>Шаблон для&nbsp;замены:</p>
 <div class="highlight"><pre><span></span>Assert.That($actual$, Is.EqualTo($expected$).IgnoreCase);
 </pre></div>
 
 
-<p>expected и actual обозначают аргументы, мы задаём это явно в настройках placeholder:</p>
+<p>expected и actual обозначают аргументы, мы задаём это явно в настройках&nbsp;placeholder:</p>
 <p><img alt="Argument constraints in ReSharper Search with Pattern" src="./images/resharper-search-with-pattern/argument-constraint.png" title="Argument constraints in ReSharper Search with Pattern" /></p>
-<p>Нам остаётся нажать Replace, остальное сделает ReSharper.</p>
+<p>Нам остаётся нажать Replace, остальное сделает&nbsp;ReSharper.</p>
         </div>
     </div>
 </div>

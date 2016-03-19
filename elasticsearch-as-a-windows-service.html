@@ -4,7 +4,7 @@
       <title>tkirill's blog</title>
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="./theme/css/blog.css" />
 
     <script>
@@ -43,10 +43,10 @@
             Ср. 07 Май 2014
         </p>
         <h2>
-            <a href="./elasticsearch-as-a-windows-service.html" rel="bookmark" title="Permalink to Установка ElasticSearch как Windows-сервиса">Установка ElasticSearch как Windows-сервиса</a>
+            <a href="./elasticsearch-as-a-windows-service.html" rel="bookmark" title="Permalink to Установка ElasticSearch как Windows-сервиса">Установка ElasticSearch как&nbsp;Windows-сервиса</a>
         </h2>
         <div class="article-content">
-            <p>В этой короткой заметке рассказывается, как запустить ElasticSearch в виде Windows-сервиса с сохранением данных вне Program files, прямо как в Linux.</p>
+            <p>В этой короткой заметке рассказывается, как запустить ElasticSearch в виде Windows-сервиса с сохранением данных вне Program files, прямо как в&nbsp;Linux.</p>
 <ol>
 <li>
 <p>Скачиваем архив с ElasticSearch и распаковываем его в Program files.  Дальше будем называть это место <em>каталогом установки</em>.</p>
@@ -55,10 +55,10 @@
 <p>Создаём где-нибудь в другом месте каталог для данных, логов и конфигов.  Дальше будем называть это место <em>рабочим каталогом</em>.</p>
 </li>
 <li>
-<p>Копируем каталог config из каталога установки в рабочий каталог.</p>
+<p>Копируем каталог config из каталога установки в рабочий&nbsp;каталог.</p>
 </li>
 <li>
-<p>Настраиваем в файле config/elasticsearch.yml пути (<a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-dir-layout.html">документация</a>).  Нам нужно настроить четыре каталога: path.conf, path.data, path.logs и path.work, остальные каталоги правильно настроит service.bat из каталога установки.  Например, если рабочий каталог -- E:\elasticsearch, то в elasticsearch.yml нужно прописать такие настройки:</p>
+<p>Настраиваем в файле config/elasticsearch.yml пути (<a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-dir-layout.html">документация</a>).  Нам нужно настроить четыре каталога: path.conf, path.data, path.logs и path.work, остальные каталоги правильно настроит service.bat из каталога установки.  Например, если рабочий каталог &#8212; E:\elasticsearch, то в elasticsearch.yml нужно прописать такие&nbsp;настройки:</p>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">path.conf</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">E:\elasticsearch\config</span>
 <span class="l l-Scalar l-Scalar-Plain">path.data</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">E:\elasticsearch\data</span>
 <span class="l l-Scalar l-Scalar-Plain">path.work</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">E:\elasticsearch\work</span>
@@ -68,7 +68,7 @@
 
 </li>
 <li>
-<p>Можно настроить название кластера, чтобы вы случайно не пересеклись с другим интересующимся ElasticSearch человеком в своей локальной сети.  Это не обязательно, но может пригодится, как и настройка сетевого интерфейса:</p>
+<p>Можно настроить название кластера, чтобы вы случайно не пересеклись с другим интересующимся ElasticSearch человеком в своей локальной сети.  Это не обязательно, но может пригодится, как и настройка сетевого&nbsp;интерфейса:</p>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">cluster.name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">boogie-woogie</span>
 <span class="l l-Scalar l-Scalar-Plain">network.host</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">127.0.0.1</span>
 </pre></div>
@@ -76,37 +76,37 @@
 
 </li>
 <li>
-<p>Для установки сервиса мы будем использовать скрипт service.bat из каталога установки (подкаталог bin).  Запускаем консоль с правами администратора.</p>
+<p>Для установки сервиса мы будем использовать скрипт service.bat из каталога установки (подкаталог bin).  Запускаем консоль с правами&nbsp;администратора.</p>
 </li>
 <li>
-<p>В переменную CONF_FILE сохраняем полный путь до файла конфигурации:</p>
+<p>В переменную CONF_FILE сохраняем полный путь до файла&nbsp;конфигурации:</p>
 <div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">CONF_FILE</span><span class="p">=</span>E:\elasticsearch\config\elasticsearch.yml
 </pre></div>
 
 
-<p>Это работает благодаря следующей строке в service.bat:</p>
+<p>Это работает благодаря следующей строке в&nbsp;service.bat:</p>
 <div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">&quot;</span><span class="nv">%CONF_FILE%</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="k">set</span> <span class="nv">CONF_FILE</span><span class="p">=</span><span class="nv">%ES_HOME%</span>\config\elasticsearch.yml
 </pre></div>
 
 
 </li>
 <li>
-<p>Устанавливаем сервис вызывая service.bat, сервис будет называться ElasticSearch:</p>
+<p>Устанавливаем сервис вызывая service.bat, сервис будет называться&nbsp;ElasticSearch:</p>
 <div class="highlight"><pre><span></span>\Program Files\elasticsearch-1.1.1\bin\service.bat install ElasticSearch
 </pre></div>
 
 
-<p>Мы указываем название явно, иначе сервис получит неудобное название по-умолчанию -- elasticsearch-service-x64.</p>
+<p>Мы указываем название явно, иначе сервис получит неудобное название по-умолчанию &#8212;&nbsp;elasticsearch-service-x64.</p>
 </li>
 <li>
-<p>Запускаем сервис:</p>
+<p>Запускаем&nbsp;сервис:</p>
 <div class="highlight"><pre><span></span>net start ElasticSearch
 </pre></div>
 
 
 </li>
 </ol>
-<p>Настройки из файла конфигурации перезатрут настройки, устанавливаемые service.bat благодаря тому, что service.bat указывает только настройки по-умолчанию, используя префикс es.default:</p>
+<p>Настройки из файла конфигурации перезатрут настройки, устанавливаемые service.bat благодаря тому, что service.bat указывает только настройки по-умолчанию, используя префикс&nbsp;es.default:</p>
 <div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">ES_PARAMS</span><span class="p">=</span>-Delasticsearch;-Des.path.home=<span class="s2">&quot;</span><span class="nv">%ES_HOME%</span><span class="s2">&quot;</span>;-Des.default.config=<span class="s2">&quot;</span><span class="nv">%CONF_FILE%</span><span class="s2">&quot;</span>;-Des.default.path.home=<span class="s2">&quot;</span><span class="nv">%ES_HOME%</span><span class="s2">&quot;</span>;-Des.default.path.logs=<span class="s2">&quot;</span><span class="nv">%LOG_DIR%</span><span class="s2">&quot;</span>; etc...
 </pre></div>
         </div>

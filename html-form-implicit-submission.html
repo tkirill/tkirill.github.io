@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+      <title>tkirill's blog</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="./theme/css/blog.css" />
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-49219502-1', 'tkirill.org');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments-friendly.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1><a href=".">tkirill's blog</a></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+<div class="row">
+    <div class="col-md-8">
+        <p class="article-date">
+            Ср. 16 Март 2016
+        </p>
+        <h2>
+            <a href="./html-form-implicit-submission.html" rel="bookmark" title="Permalink to Когда включается автоматичекая отправка HTML форм, а когда — нет">Когда включается автоматичекая отправка <span class="caps">HTML</span> форм, а когда &#8212;&nbsp;нет</a>
+        </h2>
+        <div class="article-content">
+            
+
+<p>Настало время разобраться как работает автоматическая отправка формы по нажатию на Enter, а то каждый раз приходится разбираться, почему форма отправляется или не отправляется.  Всё это хорошо описано в стандарте <span class="caps">HTML</span> под названием <em>implicit submission</em> и, оказывается, поведение автоматической отправки форм зависит от наличия у формы submit-кнопки.  Давайте посмотрим, что происходит когда submit-кнопка есть и когда её нет.
+</p>
+<h3>Когда submit-кнопка&nbsp;есть</h3>
+<p>Во-первых, поведение автоматической отправки зависит от наличия у формы submit-кнопки.  Когда такая кнопка есть, отправка по нажатию на Enter просто работает, как видно на этом&nbsp;примере:</p>
+<div class="example card card-example">
+    <div class="card-header">Форма с submit-кнопкой</div>
+    <div class="card-block">
+        <form class="example-form">
+            <div class="form-group row">
+                <label for="input-text1" class="col-sm-2 form-control-label">Поле 1</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="input-text1" placeholder="Текст">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="input-text2" class="col-sm-2 form-control-label">Поле 2</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="input-text2" placeholder="Текст">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="textarea1" class="col-sm-2 form-control-label">Поле 3</label>
+                <div class="col-sm-10">
+                    <textarea type="text" class="form-control" id="textarea1" placeholder="Текст"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-offset-2 col-sm-2">
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                </div>
+                <div class="col-sm-offset-1 col-sm-4">
+                    <span class="submit-indicator">Выполнена отправка!</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p>Отправку формы можно отследить по индикатору отправки, расположенному справа от кнопки Submit&#8212; он подписан на событие submit формы и загорается, когда это событие происходит.  Если нажать Enter в любом из однострочных полей, то форма&nbsp;отправится.</p>
+<p>То же самое произойдёт и с другими типами полей &#8212; checkbox, radio, однако не любое поле в форме обладает таким свойством.  Очевидное исключение &#8212; textarea, в котором Enter используется для перевода строк.  Вы можете это проверить в форме&nbsp;выше.</p>
+<h3>Когда submit-кнопки&nbsp;нет</h3>
+<p>При отсутствии submit-кнопки автоматическая отправка может работать, а может и нет.  Зависит это от количества полей в форме &#8212; если форма имеет лишь одно поле, то отправка по Enter работает.  В противном же случае, если полей несколько, форма по Enter отправляться не будет.  Проверим это на двух формах, с одним полем и двумя полями&nbsp;соответственно:</p>
+<div class="example card card-example">
+    <div class="card-header">Форма с одним полем</div>
+    <div class="card-block">
+        <form class="example-form">
+            <div class="form-group row">
+                <label for="input-text1" class="col-sm-2 form-control-label">Поле 1</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="input-text1" placeholder="Текст">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-offset-4 col-sm-4">
+                    <span class="submit-indicator">Выполнена отправка!</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="example card card-example">
+    <div class="card-header">Форма с двумя полями</div>
+    <div class="card-block">
+        <form class="example-form">
+            <div class="form-group row">
+                <label for="input-text1" class="col-sm-2 form-control-label">Поле 1</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="input-text1" placeholder="Текст">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="input-text2" class="col-sm-2 form-control-label">Поле 2</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="input-text2" placeholder="Текст">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-offset-4 col-sm-4">
+                    <span class="submit-indicator">Выполнена отправка!</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p>Такое поведение &#8212; при отсутствии submit-кнопки отправлять по Enter только формы с одним полем &#8212; закреплено давно и описано аж в <a href="https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2" title="Документация на implicit submission в стандарте HTML 2"><span class="caps">HTML</span> 2</a>.  Жаль, но в стандарте нет комментария с объяснением этого ограничения и у меня не получилось найти достоверных версий в сети.  Судя по всему, это защита от случайной отправки в процессе заполнения больших форм, состоящих из нескольких&nbsp;полей.</p>
+<p>Есть ещё одна интересная деталь.  В текущем стандарте <span class="caps">HTML</span> 5, в отличие от <span class="caps">HTML</span> 2, уточняется тип полей, которые учитываются при решении включать автоматическую отправку формы или нет.  Браузер подсчитывает только input типов text, search, url, tel, email, password, date, time и number.  Количество других полей значения не&nbsp;имеет.</p>
+<p>Другими словами, форма с одним <code>&lt;input type="text"&gt;</code> будет отправлена по Enter, равно как и форма в которой кроме <code>&lt;input type="text"&gt;</code> будет ещё и набор <code>&lt;input type="radio"&gt;</code>.  В то же время, форма с двумя <code>&lt;input type="text"&gt;</code> или с двумя <code>&lt;input type="number"&gt;</code> отправлена не&nbsp;будет.</p>
+<p>Давайте проверим, что сложная форма с несколькими контролами, среди которых, однако, лишь один <code>&lt;input type="text"&gt;</code>, действительно автоматически отправляется по нажатию на&nbsp;Enter:</p>
+<div class="example card card-example">
+    <div class="card-header">Сложная форма с одним input type=text</div>
+    <div class="card-block">
+        <form class="example-form">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Текст">
+            </div>
+            <div class="form-group">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="radio1" value="option1" checked>
+                        Option 1
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="radio1" value="option2">
+                        Option 2
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea type="text" class="form-control" placeholder="Текст"></textarea>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-offset-4 col-sm-4">
+                    <span class="submit-indicator">Выполнена отправка!</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p>Это странное поведение, которое не согласуется с версией о защите от случайно отправки не до конца заполненных сложных форм.  Вряд ли это баг в браузере, уж слишком давно такое поведение существует.  Теперь узнать настоящие мотивы ограничения на один <code>input</code> определённого типа стало ещё&nbsp;интереснее.</p>
+<h3>Итого</h3>
+<p>Подведём итог.  Форма будет автоматически отправлена по нажатию на Enter в одном из двух&nbsp;случаев:</p>
+<ul>
+<li>Либо у формы есть&nbsp;submit-кнопка</li>
+<li>Либо submit-кнопки нет, но у формы не более одного <code>input</code> типа text, search, url, tel, email, password, date, time или&nbsp;number</li>
+</ul>
+<p>Параграф, посвящённый implicit submission в актуальном стандарте <span class="caps">HTML</span> 5 &#8212; <a href="https://www.w3.org/TR/html5/forms.html#implicit-submission" title="Документация на implicit submission в стандарте HTML 2">#4.10.22.2</a>.</p>
+<script src="./js/jquery/jquery-2.2.2.min.js"></script>
+
+<script src="./js/html-form-implicit-submission/example-form.js"></script>
+        </div>
+    </div>
+</div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="pelican-credits">Powered by <a href="http://docs.getpelican.com/">Pelican</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
